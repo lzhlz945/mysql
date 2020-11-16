@@ -1,0 +1,5 @@
+mysql:
+启动和关闭命令
+以管理员运行
+net start mysql
+net stop mysql
