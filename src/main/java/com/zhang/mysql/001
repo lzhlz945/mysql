@@ -1,2 +1,12 @@
-<=>
+1、<=>
 既可以判断null值，也可以判断数值
+
+2、查询不存在的计算值
+SELECT last_name,(1+IFNULL(commission_pct,0))*12*salary as a
+FROM employees
+order BY  a ;
+
+3、根据字段为字符串排序
+SELECT last_name,(1+IFNULL(commission_pct,0))*12*salary as a
+FROM employees
+order BY  LENGTH(last_name);
