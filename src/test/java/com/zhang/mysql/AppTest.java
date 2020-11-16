@@ -24,6 +24,11 @@ public class AppTest
           while (keys.hasMoreElements()){
               String s = bundle.getString(keys.nextElement());
               System.out.println(s);
+              List list=new ArrayList();
+              for (Iterator iterator = list.iterator(); iterator.hasNext(); ) {
+                  Object next = iterator.next();
+
+              }
           }
 
       }catch (Exception e){
