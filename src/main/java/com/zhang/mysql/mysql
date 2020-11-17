@@ -1,5 +1,28 @@
 mysql:
-启动和关闭命令
+一、启动和关闭命令
 以管理员运行
 net start mysql
 net stop mysql
+
+mysql -h localhost -P 3306 -u root -p
+mysql  -u root -p
+
+二、规范：
+1、去除别名 ：SELECT DISTINCT job_id '编号' FROM employees;
+
+2、CONCAT
+CONCAT(str1,str2,...) 连接列名，字符串连接
+SELECT CONCAT(first_name,last_name) as 姓名 FROM employees;
+
+3、DESC
+查看表结构
+DESC 表明;
+
+4、IFNULL()
+SELECT CONCAT(first_name,IFNULL(commission_pct,0.0),last_name) AS ABVCFF
+FROM employees;  IFNULL(字段名,null值替换值)
+
+5、ESCAPE
+SELECT last_name,salary
+FROM employees
+WHERE last_name LIKE '_a_%' ESCAPE 'a'; 相当于转义字符 '_\_%'
