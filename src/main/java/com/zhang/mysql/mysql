@@ -104,6 +104,23 @@ mysql:
  ⑤mod() 取模，符号和被除数一致
  mod(10,3) 1
 
+——————————————————————————————————————————————————————————————————————————————
+日期函数
+
+①now() 返回当前时间带所有信息
+
+②curDate() 返回时间只带日期
+
+③curTime() 返回时间不带日期
+
+④只返回特点的时间截取
+ SELECT YEAR(NOW()) 返回年
+ SELECT MONTH(NOW()) 返回月
+ SELECT MONTHName(NOW()) 返回月为英文
+ SELECT day(hiredate) FROM employees; 返回天
+ SELECT MINUTE(now()); 返回分钟
+ SELECT SECOND(now()); 返回秒
+
 
 
 
