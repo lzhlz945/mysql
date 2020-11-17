@@ -80,7 +80,7 @@ mysql:
  SELECT LPAD("aaaabbb",12,123);
  SELECT RPAD("aaaabbb",12,123);
 
- ⑫⑬⑭⑮⑯⑰⑱⑲⑳
+
 
 ⑪replace() 替换
  1表示需要被替换的内容 2表示替换后的内容select replace("str","s","2"); 2tr
