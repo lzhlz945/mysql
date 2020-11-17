@@ -1,60 +1,60 @@
 mysql:
 一、启动和关闭命令
-以管理员运行
-net start mysql
-net stop mysql
+ 以管理员运行
+ net start mysql
+ net stop mysql
 
-mysql -h localhost -P 3306 -u root -p
-mysql  -u root -p
+ mysql -h localhost -P 3306 -u root -p
+ mysql  -u root -p
 
 二、规范：
 1、去除别名 ：SELECT DISTINCT job_id '编号' FROM employees;
 
 2、CONCAT
-CONCAT(str1,str2,...) 连接列名，字符串连接
-SELECT CONCAT(first_name,last_name) as 姓名 FROM employees;
+ CONCAT(str1,str2,...) 连接列名，字符串连接
+ SELECT CONCAT(first_name,last_name) as 姓名 FROM employees;
 
 3、DESC
-查看表结构
-DESC 表明;
+ 查看表结构
+ DESC 表明;
 
 4、IFNULL()
-SELECT CONCAT(first_name,IFNULL(commission_pct,0.0),last_name) AS ABVCFF
-FROM employees;  IFNULL(字段名,null值替换值)
+ SELECT CONCAT(first_name,IFNULL(commission_pct,0.0),last_name) AS ABVCFF
+ FROM employees;  IFNULL(字段名,null值替换值)
 
 5、ESCAPE
-SELECT last_name,salary
-FROM employees
-WHERE last_name LIKE '_a_%' ESCAPE 'a'; 相当于转义字符 '_\_%'
+ SELECT last_name,salary
+ FROM employees
+ WHERE last_name LIKE '_a_%' ESCAPE 'a'; 相当于转义字符 '_\_%'
 
 6、<=>
-既可以判断null值，也可以判断数值
+ 既可以判断null值，也可以判断数值
 
 7、查询不存在的计算值
-SELECT last_name,(1+IFNULL(commission_pct,0))*12*salary as a
-FROM employees
-order BY  a ;
+ SELECT last_name,(1+IFNULL(commission_pct,0))*12*salary as a
+ FROM employees
+ order BY  a ;
 
 8、根据字段为字符串排序
-SELECT last_name,(1+IFNULL(commission_pct,0))*12*salary as a
-FROM employees
-order BY  LENGTH(last_name);
+ SELECT last_name,(1+IFNULL(commission_pct,0))*12*salary as a
+ FROM employees
+ order BY  LENGTH(last_name);
 
 -----------------------------------------------------------------------------
 
 二、mysql函数
 
 1、函数的类型：
-字符函数、数学函数、日期函数、其他函数、流程控制函数
+ 字符函数、数学函数、日期函数、其他函数、流程控制函数
 
 2、字符函数
-1个汉字占3个字节 utf
+ 1个汉字占3个字节 utf
 ①Length() 计算字符串长度
 
 ②concat() 连接字段，拼接
 
 ③UPPER、LOWER大小写转换（函数支持嵌套）
-SELECT CONCAT(UPPER(first_name),LOWER(last_name)) as 姓名 FROM	employees;
+ SELECT CONCAT(UPPER(first_name),LOWER(last_name)) as 姓名 FROM	employees;
 
 ④IFNULL() 判断是否为空 参数1：字段名，参数2：为空替换值
 
@@ -63,24 +63,24 @@ SELECT CONCAT(UPPER(first_name),LOWER(last_name)) as 姓名 FROM	employees;
 ⑥<=> 可以判断字段值是否是null值，也可以判断数值
 
 ⑦substr() 截取字符串 索引从1 开始
-select substr("1234",2); 234 第二个到最后一个
-select substr("1234",2,2);23 第三个参数是个数的意思
+ select substr("1234",2); 234 第二个到最后一个
+ select substr("1234",2,2);23 第三个参数是个数的意思
 综合练习sql：
-SELECT CONCAT(UPPER(SUBSTR(first_name,1,1)),LOWER(SUBSTR(first_name,2))) 姓名 FROM employees;
+ SELECT CONCAT(UPPER(SUBSTR(first_name,1,1)),LOWER(SUBSTR(first_name,2))) 姓名 FROM employees;
 
 ⑧instr() 返回第一次出现的索引
-SELECT INSTR("zhlgmdqq","z"); 1 如果不存在返回0
+ SELECT INSTR("zhlgmdqq","z"); 1 如果不存在返回0
 
 ⑨trim() 清除空格
-SELECT TRIM("   www       "); www
-可以清空前后指定的字符 SELECT TRIM('a' FROM "aaaa111222aaaa"); from
+ SELECT TRIM("   www       "); www
+ 可以清空前后指定的字符 SELECT TRIM('a' FROM "aaaa111222aaaa"); from
 
 ⑩lpad() rpad() 左右填充
-参数1：是填充的目标 参数2：填充后大小个数 参数3：需要左（右）填充的target
-SELECT LPAD("aaaabbb",12,123);
-SELECT RPAD("aaaabbb",12,123);
+ 参数1：是填充的目标 参数2：填充后大小个数 参数3：需要左（右）填充的target
+ SELECT LPAD("aaaabbb",12,123);
+ SELECT RPAD("aaaabbb",12,123);
 
-⑫⑬⑭⑮⑯⑰⑱⑲⑳
+ ⑫⑬⑭⑮⑯⑰⑱⑲⑳
 
 ⑪replace() 替换
  1表示需要被替换的内容 2表示替换后的内容select replace("str","s","2"); 2tr
@@ -93,16 +93,18 @@ SELECT RPAD("aaaabbb",12,123);
  round(-1.5251,2)  -1.53 可以对小数进行四舍五入
 
 ②ceil() 向上取整
-SELECT ceil(-1.9) -1 SELECT ceil(1.1) 2
+ SELECT ceil(-1.9) -1 SELECT ceil(1.1) 2
 
 ③floor() 向下取整
-SELECT floor(-1.223) -2  SELECT floor(1.9) 1
+ SELECT floor(-1.223) -2  SELECT floor(1.9) 1
 
 ④#TRUNCATE(参数1,参数2) 截取 参数1 截取目标 参数2 截取小数长度
  SELECT TRUNCATE(1.499,2) 1.49
 
  ⑤mod() 取模，符号和被除数一致
  mod(10,3) 1
+
+
 
 
 
