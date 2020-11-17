@@ -121,8 +121,13 @@ mysql:
  SELECT MINUTE(now()); 返回分钟
  SELECT SECOND(now()); 返回秒
 
+⑤str_to_Date
+ SELECT hiredate FROM employees WHERE hiredate='1992-4-3'
+ #STR_TO_DATE(str,format)
+ SELECT hiredate FROM employees WHERE hiredate=STR_TO_DATE('4-3 1992','%c-%d %Y')
 
-
+⑥date_Format
+ SELECT DATE_FORMAT('1994/04/01','%Y年-%m月%d日')
 
 
 
