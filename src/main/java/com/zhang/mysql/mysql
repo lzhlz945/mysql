@@ -165,8 +165,11 @@ SELECT COUNT(salary) FROM employees;
 
 SELECT COUNT(DISTINCT salary) FROM employees;
 
+count(常量) count(*)效果一样
 
-
+效率：
+myisam count(*) 效率高
+innodb count(*) 然后count(1) 最慢为count(常量)
 
 
 
