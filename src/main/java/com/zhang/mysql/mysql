@@ -171,7 +171,9 @@ count(常量) count(*)效果一样
 myisam count(*) 效率高
 innodb count(*) 然后count(1) 最慢为count(常量)
 
-
+dateDiff
+日期计算差值
+SELECT DATEDIFF(NOW(),'1994-05-11')
 
 
 
