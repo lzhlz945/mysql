@@ -175,10 +175,28 @@ dateDiff
 日期计算差值
 SELECT DATEDIFF(NOW(),'1994-05-11')
 
+分组查询
 
+#查询部门人数大于2的部门
+SELECT count(*)  FROM employees
+GROUP BY department_id
+HAVING count(*) >2
 
+查询
+#有奖金的最大工资> 1200 的工位的名称
+SELECT max(salary)
+FROM employees
+WHERE commission_pct is not NULL
+GROUP BY job_id
+HAVING max(salary) >1200
 
+#查询部门编号大于102 其各部门最低工资的信息
+SELECT manager_id ,min(salary)
+FROM employees
+-- WHERE salary>5000
 
+GROUP BY manager_id
+HAVING manager_id>102 and min(salary)>5000
 
 
 
