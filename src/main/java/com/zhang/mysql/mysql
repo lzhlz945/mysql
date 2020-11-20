@@ -349,6 +349,41 @@ cross连接 其实就是实现了99语法的笛卡尔乘及
  WHERE location_id in (1400,1700)
  );
 
+ ----------------------------------------------------------------------------------
+ 行子查询
+
+ #查询员工编号最小且工资最高的员工信息
+
+ SELECT * from employees
+ #工资最高
+ SELECT max(salary) FROM employees
+ #编号最小
+ SELECT min(employee_id) FROM employees
+
+ 1、第一种
+ SELECT employee_id,last_name,salary
+ FROM employees
+ WHERE employee_id=(SELECT min(employee_id) FROM employees)
+ UNION
+ SELECT employee_id,last_name,salary
+ FROM employees
+ WHERE salary=(SELECT max(salary) FROM employees)
+
+ 2、第二种
+ SELECT employee_id,last_name,salary
+ FROM employees
+ WHERE employee_id=(SELECT min(employee_id) FROM employees)
+ and
+ salary=(SELECT max(salary) FROM employees)
+
+ 3、行子查询
+ SELECT * FROM employees
+ WHERE (employee_id,salary)=(
+ SELECT min(employee_id),max(salary)
+ FROM employees
+ )
+
+
 
 
 
