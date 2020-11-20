@@ -313,6 +313,43 @@ cross连接 其实就是实现了99语法的笛卡尔乘及
      WHERE department_id=50
   )
 
+---------------------------------------------------------------------------------------------------------
+
+列子查询
+ 多行操作符
+ all 相当于max any相当于min
+
+ #1、返回 location_id是1400或1700的部门中的所有员工姓名
+ #第一种子查询
+ SELECT location_id
+ WHERE location_id=1400 or location_id=1700
+
+ #第二种子查询
+ SELECT  DISTINCT department_id
+ FROM departments
+ WHERE location_id in (1400,1700)
+
+ #第一种
+ SELECT e.last_name,d.location_id
+ FROM departments d JOIN employees e
+ on e.department_id =d.department_id
+ WHERE d.location_id in (
+ SELECT location_id
+ FROM locations
+ WHERE location_id=1400 or location_id=1700
+ );
+
+ #第二种
+ SELECT last_name
+ FROM employees
+ WHERE department_id in
+ (
+ SELECT department_id
+ FROM departments
+ WHERE location_id in (1400,1700)
+ );
+
+
 
 
 
