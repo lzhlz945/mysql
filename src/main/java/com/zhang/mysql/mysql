@@ -198,7 +198,30 @@ FROM employees
 GROUP BY manager_id
 HAVING manager_id>102 and min(salary)>5000
 
+支持别名
+
+CAST 转换函数
 
 
+CAST函数语法规则是：Cast(字段名 as 转换的类型 )，其中类型可以为：
 
+CHAR[(N)] 字符型
+DATE 日期型
+DATETIME 日期和时间型
+DECIMAL float型
+SIGNED int
+TIME 时间型
+
+SELECT round(-1.5241,2)
+SELECT TRUNCATE(-1.55562,2)
+SELECT CAST(1.566315 as DECIMAL(10,2))
+
+SELECT cast("2015-11-03 15:31:26" as time) as date;
+SELECT cast("2015-11-03 15:31:26" as date) as date;
+SELECT cast("2015-11-03 15:31:26" as signed) as date;
+SELECT cast("20151103153126" as CHAR) as date;
+num:20
+
+select cast(num as decimal(10, 2)) as num from table2
+#decimal(10,2)可以存储8位整数2位小数的数字.
 
