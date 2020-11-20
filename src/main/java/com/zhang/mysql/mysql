@@ -383,6 +383,27 @@ cross连接 其实就是实现了99语法的笛卡尔乘及
  FROM employees
  )
 
+--------------------------------------------------------------------------
+
+放在select后面的子查询
+
+		#查询每个部门的员工个数
+
+		#1、使用子查询的结果
+		SELECT d.*,(
+		SELECT count(*) FROM employees e
+		WHERE d.department_id=e.department_id
+		) 个数
+		FROM departments d
+
+		#2、使用连接的结果
+		SELECT d.*,count(e.department_id) 个数
+		FROM departments d LEFT join employees e
+		on d.department_id=e.department_id
+
+		GROUP BY d.department_id
+
+
 
 
 
