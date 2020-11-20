@@ -253,6 +253,109 @@ sql 连接查询 99语法
 
 cross连接 其实就是实现了99语法的笛卡尔乘及
 
+————————————————————————————————————————————————————————————————————————————————————
+子查询：
+
+ 一、where和having后面
+   1、标量子查询=单行子查询
+   2、列子查询=多行子查询=一列多行
+   3、标量子查询，一般搭配单行操作符使用：
+      > < = <> >= <=;
+      列子查询，一般搭配多行操作符使用
+      in、any/some、all
+
+
+  二、列子
+   ①、#查询abel的工资（作为子查询）
+     SELECT salary FROM employees
+     WHERE last_name='abel';
+
+     #查询工资比abel高的员工
+     SELECT last_name,salary
+     FROM employees
+     WHERE salary > (SELECT salary FROM employees
+     WHERE last_name='abel')
+
+   ②#143号员工工资 --子查询
+    SELECT salary
+    FROM employees
+    WHERE employee_id=143
+
+    #job_id=141的员工 --子查询
+    SELECT job_id
+    FROM employees
+    WHERE employee_id=141
+
+    #与job_id=141的员工的job_id相同，salary大于43号员工工资
+    SELECT last_name,job_id,salary
+    FROM employees
+    WHERE job_id=(
+     SELECT job_id
+     FROM employees
+     WHERE employee_id=141
+    ) and
+    salary > (
+     SELECT salary
+    FROM employees
+    WHERE employee_id=143
+    );
+ ③#四 查询最低工资大于50号部门最低工资的部门id和最低工资 (having的后面跟子查询)
+  SELECT min(salary) 最低工资
+  FROM employees
+  WHERE department_id=50
+
+  SELECT department_id,min(salary)
+  FROM employees
+  GROUP BY department_id
+  HAVING min(salary) >(
+     SELECT min(salary)
+     FROM employees
+     WHERE department_id=50
+  )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
