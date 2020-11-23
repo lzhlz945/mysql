@@ -433,12 +433,33 @@ from后面的查询 连接查询
 		on s.salary BETWEEN g.lowest_sal and g.highest_sal
 		ORDER BY s.salary desc
 
+------------------------------------------------------------------------------------
+
+
+exist(完整语句) 相关联查询
+
+#查询有员工的部门名,相关子查询
+
+SELECT DISTINCT department_name
+FROM departments d
+WHERE EXISTS(
+SELECT * FROM employees e
+WHERE d.department_id=e.department_id)
 
 
 
-
-
-
+#用in实现
+SELECT DISTINCT department_id,last_name FROM employees
+-- WHERE department_id in(
+-- SELECT DISTINCT department_id
+-- FROM departments
+-- )
+GROUP BY department_id
+HAVING department_id
+in(
+SELECT DISTINCT department_id
+FROM departments
+)
 
 
 
