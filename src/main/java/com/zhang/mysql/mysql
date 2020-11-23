@@ -403,7 +403,35 @@ cross连接 其实就是实现了99语法的笛卡尔乘及
 
 		GROUP BY d.department_id
 
+--------------------------------------------------------------------------------------
+from后面的查询 连接查询
 
+		#查询每个部门的平均工资的工资等级
+		SELECT CAST(avg(salary) as DECIMAL(10,2))
+		FROM employees
+		GROUP BY department_id ;
+
+   一、第一种属于92语法
+
+		SELECT s.d 部门编号,s.salary 部门平均工资,g.grade_level 工资等级
+		FROM job_grades g JOIN (
+		SELECT department_id d,
+		CAST(avg(salary) as DECIMAL(10,2)) 'salary'
+		FROM employees
+		GROUP BY department_id
+		) s
+		WHERE s.salary BETWEEN g.lowest_sal and g.highest_sal
+		order by s.salary desc;
+   二、第二种属于99语法on后面跟条件
+			SELECT s.d 部门编号,s.salary 部门平均工资,g.grade_level 工资等级
+		FROM job_grades g JOIN (
+		SELECT department_id d,
+		CAST(avg(salary) as DECIMAL(10,2)) 'salary'
+		FROM employees
+		GROUP BY department_id
+		) s
+		on s.salary BETWEEN g.lowest_sal and g.highest_sal
+		ORDER BY s.salary desc
 
 
 
