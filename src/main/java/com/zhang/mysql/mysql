@@ -546,8 +546,124 @@ FROM departments
     from employees
 
 
+-------------------------------------------------------------------------------------------------
+
+#一、查询工资最低的员工信息：last_name, salary
+    SELECT last_name,salary FROM employees ORDER BY salary  LIMIT 1
+
+	SELECT min(salary) FROM employees
+
+	SELECT last_name,salary FROM employees
+	WHERE salary=(
+	SELECT min(salary) FROM employees
+	);
+
+#二、查询平均工资最低的部门信息
+
+	SELECT department_id,avg(salary)
+	from employees
+	GROUP BY department_id
+	ORDER BY avg(salary) asc
+	LIMIT 1;
+
+	SELECT *,avg(salary) 部门平均工资  FROM employees
+	GROUP BY department_id
+	HAVING avg(salary)=(
+		SELECT avg(salary)
+	from employees
+	GROUP BY department_id
+	ORDER BY avg(salary) asc
+	LIMIT 1
+	)
+
+#三、查询平均工资最低的部门信息和该部门的平均工资
+    SELECT *
+	FROM departments d
+	join
+	(
+	SELECT department_id,avg(salary)
+	from employees
+	GROUP BY department_id
+	ORDER BY avg(salary) asc
+	LIMIT 1
+	) a  on d.department_id=a.department_id
 
 
+
+#四、查询平均工资最高的job信息
+
+	SELECT job_id
+	FROM employees
+    GROUP BY job_id
+	ORDER BY avg(salary)
+	desc LIMIT 1
+
+	SELECT j.*
+	FROM employees e join jobs j
+    on e.job_id=j.job_id
+	WHERE j.job_id=(
+	SELECT job_id
+	FROM employees
+    GROUP BY job_id
+	ORDER BY avg(salary)
+	desc LIMIT 1
+	)
+
+#五、查询平均工资高于公司平均工资的部门有哪些
+
+    SELECT avg(salary) FROM employees
+
+	SELECT department_id,avg(salary) FROM employees
+	GROUP BY department_id
+	HAVING avg(salary) >(
+	 SELECT avg(salary)
+	 FROM employees
+	)
+
+#六、查询出公司所有manage的详细信息
+
+	SELECT manager_id FROM employees
+
+	SELECT * FROM employees
+	WHERE employee_id in (
+	  SELECT manager_id
+	  FROM employees
+	 )
+
+#七、各个部门中 最高工资中最低的那个部门的 最低工资是多少
+
+  SELECT  department_id FROM employees
+	GROUP BY department_id
+	ORDER BY max(salary)
+	LIMIT 1
+
+	SELECT last_name,min(salary) FROM employees
+	WHERE department_id=(
+	 SELECT  department_id FROM employees
+	 GROUP BY department_id
+	 ORDER BY max(salary)
+	 LIMIT 1
+    )
+
+#八、查询平均工资最高的部门的 manager的详细信息：
+
+	 SELECT department_id FROM employees
+	 GROUP BY department_id
+	 ORDER BY avg(salary) desc
+	 LIMIT 1
+
+	 SELECT last_name,department_id,email,salary
+	 FROM employees
+	 WHERE  employee_id in (
+	  SELECT manager_id
+	  FROM employees
+	 )
+    and department_id=(
+	 	 SELECT department_id FROM employees
+	 GROUP BY department_id
+	 ORDER BY avg(salary) desc
+	 LIMIT 1
+	 )
 
 
 
