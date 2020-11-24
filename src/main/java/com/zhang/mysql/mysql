@@ -715,7 +715,16 @@ CREATE TABLE book(
 
   ALTER TABLE  boo1 rename to  book1;
 
+--------------------------------------------------------------------------------------------
+#复制表
 
+  CREATE TABLE author like auth1;
+
+  CREATE TABLE author1 SELECT * FROM auth1;
+
+  CREATE TABLE author2
+  SELECT id,aName FROM auth1
+  WHERE 0;
 
 
 
