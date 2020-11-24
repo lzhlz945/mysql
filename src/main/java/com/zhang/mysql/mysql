@@ -129,6 +129,598 @@ mysql:
 ⑥date_Format
  SELECT DATE_FORMAT('1994/04/01','%Y年-%m月%d日')
 
+------------------------------------------------------------------------------
+流程控制函数
+
+①SELECT if(21>22,"大","小");  三目运算
+ SELECT last_name,IFNULL(commission_pct,"空"),if(commission_pct is null,"没有奖金，难受","有奖金，开心") 奖金情况 FROM employees;
+
+②case
+ case 要判断的字段或表达式
+ when 常量1 then 要显示的值1或语句1;
+ when 常量2 then 要显示的值2或语句2;
+ else 常量n then 要显示的值n或语句n;
+ end
+
+ SELECT salary, CASE                 case和不跟字段或表达式
+ 	WHEN  salary>10000 THEN '中'
+ 	WHEN  salary>5000 THEN '良'
+ 	WHEN  salary>2000 THEN '优'
+ 	ELSE '无'
+   END as 奖金等级
+  FROM employees;
+
+  SELECT salary as 原始工资, department_id 部门编号 ,case department_id
+  when 10 then salary*1.1
+  when 20 then salary*1.2
+  when 30 then salary*1.3
+  else salary
+  end as 新工资
+  FROM employees;
+
+多行函数
+
+sum 、avg min max count  都不算null
+SELECT COUNT(salary) FROM employees;
+
+SELECT COUNT(DISTINCT salary) FROM employees;
+
+count(常量) count(*)效果一样
+
+效率：
+myisam count(*) 效率高
+innodb count(*) 然后count(1) 最慢为count(常量)
+
+dateDiff
+日期计算差值
+SELECT DATEDIFF(NOW(),'1994-05-11')
+
+分组查询
+
+#查询部门人数大于2的部门
+SELECT count(*)  FROM employees
+GROUP BY department_id
+HAVING count(*) >2
+
+查询
+#有奖金的最大工资> 1200 的工位的名称
+SELECT max(salary)
+FROM employees
+WHERE commission_pct is not NULL
+GROUP BY job_id
+HAVING max(salary) >1200
+
+#查询部门编号大于102 其各部门最低工资的信息
+SELECT manager_id ,min(salary)
+FROM employees
+-- WHERE salary>5000
+
+GROUP BY manager_id
+HAVING manager_id>102 and min(salary)>5000
+
+支持别名
+
+CAST 转换函数
+
+
+CAST函数语法规则是：Cast(字段名 as 转换的类型 )，其中类型可以为：
+
+CHAR[(N)] 字符型
+DATE 日期型
+DATETIME 日期和时间型
+DECIMAL float型
+SIGNED int
+TIME 时间型
+
+SELECT round(-1.5241,2)
+SELECT TRUNCATE(-1.55562,2)
+SELECT CAST(1.566315 as DECIMAL(10,2))
+
+SELECT cast("2015-11-03 15:31:26" as time) as date;
+SELECT cast("2015-11-03 15:31:26" as date) as date;
+SELECT cast("2015-11-03 15:31:26" as signed) as date;
+SELECT cast("20151103153126" as CHAR) as date;
+num:20
+
+select cast(num as decimal(10, 2)) as num from table2
+#decimal(10,2)可以存储8位整数2位小数的数字.
+
+----------------------------------------------------------------------
+
+sql 连接查询 99语法
+
+语法：
+ select 查询列表
+ from 表1 别名 【连接类型】
+ join 表2 别名
+ on 连接条件
+
+ 分类：
+ 内连接：inner
+
+ 外连接：
+        左外：left 【outer】
+        右外：right
+        全外：full
+
+ 交叉连接：cross
+
+ SELECT e.department_id,d.department_id
+  FROM  employees e RIGHT JOIN departments d
+  on  e.department_id=d.department_id
+  WHERE e.department_id is NULL                                                                                                                                                                                                          -=\
+
+
+cross连接 其实就是实现了99语法的笛卡尔乘及
+
+————————————————————————————————————————————————————————————————————————————————————
+子查询：
+
+ 一、where和having后面
+   1、标量子查询=单行子查询
+   2、列子查询=多行子查询=一列多行
+   3、标量子查询，一般搭配单行操作符使用：
+      > < = <> >= <=;
+      列子查询，一般搭配多行操作符使用
+      in、any/some、all
+
+
+  二、列子
+   ①、#查询abel的工资（作为子查询）
+     SELECT salary FROM employees
+     WHERE last_name='abel';
+
+     #查询工资比abel高的员工
+     SELECT last_name,salary
+     FROM employees
+     WHERE salary > (SELECT salary FROM employees
+     WHERE last_name='abel')
+
+   ②#143号员工工资 --子查询
+    SELECT salary
+    FROM employees
+    WHERE employee_id=143
+
+    #job_id=141的员工 --子查询
+    SELECT job_id
+    FROM employees
+    WHERE employee_id=141
+
+    #与job_id=141的员工的job_id相同，salary大于43号员工工资
+    SELECT last_name,job_id,salary
+    FROM employees
+    WHERE job_id=(
+     SELECT job_id
+     FROM employees
+     WHERE employee_id=141
+    ) and
+    salary > (
+     SELECT salary
+    FROM employees
+    WHERE employee_id=143
+    );
+ ③#四 查询最低工资大于50号部门最低工资的部门id和最低工资 (having的后面跟子查询)
+  SELECT min(salary) 最低工资
+  FROM employees
+  WHERE department_id=50
+
+  SELECT department_id,min(salary)
+  FROM employees
+  GROUP BY department_id
+  HAVING min(salary) >(
+     SELECT min(salary)
+     FROM employees
+     WHERE department_id=50
+  )
+
+---------------------------------------------------------------------------------------------------------
+
+列子查询
+ 多行操作符
+ all 相当于max any相当于min
+
+ #1、返回 location_id是1400或1700的部门中的所有员工姓名
+ #第一种子查询
+ SELECT location_id
+ WHERE location_id=1400 or location_id=1700
+
+ #第二种子查询
+ SELECT  DISTINCT department_id
+ FROM departments
+ WHERE location_id in (1400,1700)
+
+ #第一种
+ SELECT e.last_name,d.location_id
+ FROM departments d JOIN employees e
+ on e.department_id =d.department_id
+ WHERE d.location_id in (
+ SELECT location_id
+ FROM locations
+ WHERE location_id=1400 or location_id=1700
+ );
+
+ #第二种
+ SELECT last_name
+ FROM employees
+ WHERE department_id in
+ (
+ SELECT department_id
+ FROM departments
+ WHERE location_id in (1400,1700)
+ );
+
+ ----------------------------------------------------------------------------------
+ 行子查询
+
+ #查询员工编号最小且工资最高的员工信息
+
+ SELECT * from employees
+ #工资最高
+ SELECT max(salary) FROM employees
+ #编号最小
+ SELECT min(employee_id) FROM employees
+
+ 1、第一种
+ SELECT employee_id,last_name,salary
+ FROM employees
+ WHERE employee_id=(SELECT min(employee_id) FROM employees)
+ UNION
+ SELECT employee_id,last_name,salary
+ FROM employees
+ WHERE salary=(SELECT max(salary) FROM employees)
+
+ 2、第二种
+ SELECT employee_id,last_name,salary
+ FROM employees
+ WHERE employee_id=(SELECT min(employee_id) FROM employees)
+ and
+ salary=(SELECT max(salary) FROM employees)
+
+ 3、行子查询
+ SELECT * FROM employees
+ WHERE (employee_id,salary)=(
+ SELECT min(employee_id),max(salary)
+ FROM employees
+ )
+
+--------------------------------------------------------------------------
+
+放在select后面的子查询
+
+		#查询每个部门的员工个数
+
+		#1、使用子查询的结果
+		SELECT d.*,(
+		SELECT count(*) FROM employees e
+		WHERE d.department_id=e.department_id
+		) 个数
+		FROM departments d
+
+		#2、使用连接的结果
+		SELECT d.*,count(e.department_id) 个数
+		FROM departments d LEFT join employees e
+		on d.department_id=e.department_id
+
+		GROUP BY d.department_id
+
+--------------------------------------------------------------------------------------
+from后面的查询 连接查询
+
+		#查询每个部门的平均工资的工资等级
+		SELECT CAST(avg(salary) as DECIMAL(10,2))
+		FROM employees
+		GROUP BY department_id ;
+
+   一、第一种属于92语法
+
+		SELECT s.d 部门编号,s.salary 部门平均工资,g.grade_level 工资等级
+		FROM job_grades g JOIN (
+		SELECT department_id d,
+		CAST(avg(salary) as DECIMAL(10,2)) 'salary'
+		FROM employees
+		GROUP BY department_id
+		) s
+		WHERE s.salary BETWEEN g.lowest_sal and g.highest_sal
+		order by s.salary desc;
+   二、第二种属于99语法on后面跟条件
+			SELECT s.d 部门编号,s.salary 部门平均工资,g.grade_level 工资等级
+		FROM job_grades g JOIN (
+		SELECT department_id d,
+		CAST(avg(salary) as DECIMAL(10,2)) 'salary'
+		FROM employees
+		GROUP BY department_id
+		) s
+		on s.salary BETWEEN g.lowest_sal and g.highest_sal
+		ORDER BY s.salary desc
+
+------------------------------------------------------------------------------------
+
+
+exist(完整语句) 相关联查询
+
+#查询有员工的部门名,相关子查询
+
+SELECT DISTINCT department_name
+FROM departments d
+WHERE EXISTS(
+SELECT * FROM employees e
+WHERE d.department_id=e.department_id)
+
+
+
+#用in实现
+SELECT DISTINCT department_id,last_name FROM employees
+-- WHERE department_id in(
+-- SELECT DISTINCT department_id
+-- FROM departments
+-- )
+GROUP BY department_id
+HAVING department_id
+in(
+SELECT DISTINCT department_id
+FROM departments
+)
+
+--------------------------------------------------------------------------------------------
+子查询练习
+
+一、#查询和zlotkey相同部门的员工姓名和工资
+
+ -- 子查询
+ SELECT department_id FROM employees
+ WHERE last_name='zlotkey';
+
+ SELECT last_name,salary FROM employees
+ WHERE department_id=(
+ SELECT department_id FROM employees
+ WHERE last_name='zlotkey'
+ );
+
+
+#二、 查询工资比公司平均工资高的员工的员工号，姓名和工资
+ SELECT TRUNCATE(avg(salary),2) FROM employees
+ SELECT cast(avg(salary) as DECIMAL(10,2)) FROM employees
+
+ SELECT employee_id,last_name,salary
+ FROM employees
+ WHERE salary>(
+  SELECT cast(avg(salary) as DECIMAL(10,2))
+  FROM employees
+  );
+
+#三、查询各部门工资比本部门平均工资高的员工的工号和姓名
+   SELECT cast(avg(salary) as DECIMAL(10,2)),department_id
+	 FROM employees GROUP BY department_id
+
+   SELECT e.last_name,a.avg,e.salary,e.department_id FROM
+   ( SELECT cast(avg(salary) as DECIMAL(10,2)) 'avg',department_id
+  	 FROM employees GROUP BY department_id
+   ) a
+   JOIN employees e
+	 on a.department_id=e.department_id
+	 WHERE e.salary>a.avg
+
+	 SELECT avg(salary) FROM employees
+	 WHERE department_id=100
+
+
+
+ #四、查询和姓名中包含字母u的员工在相同部门的员工的员工号和姓名
+
+   SELECT department_id FROM employees WHERE last_name LIKE '%u%'
+
+   SELECT DISTINCT department_id FROM employees
+   WHERE last_name LIKE '%u%' ORDER BY department_id
+
+   SELECT last_name,department_id
+   FROM employees
+   WHERE department_id in(
+   SELECT DISTINCT department_id FROM employees
+   WHERE last_name LIKE '%u%'
+   )
+
+ #五、查询在部门的location_id 为1700的部门工作的员工号
+   SELECT department_id FROM departments WHERE location_id=1700
+
+   SELECT last_name,employee_id,department_id
+   FROM employees
+   WHERE department_id in(
+   SELECT department_id FROM departments WHERE location_id=1700
+   )
+
+
+ #六、查询管理者是King的员工姓名和工资
+
+	 SELECT employee_id FROM employees
+	 WHERE last_name ='k_ing'
+
+	 SELECT last_name,salary,manager_id FROM employees
+	 WHERE manager_id in(
+	  SELECT employee_id FROM employees
+	  WHERE last_name ='k_ing'
+	 )
+
+ #七、查询工资最高的员工姓名。要求first_name和last_name显示为一列
+
+    SELECT CONCAT(first_name,last_name) 姓名,max(salary)
+    from employees
+
+
+-------------------------------------------------------------------------------------------------
+
+#一、查询工资最低的员工信息：last_name, salary
+    SELECT last_name,salary FROM employees ORDER BY salary  LIMIT 1
+
+	SELECT min(salary) FROM employees
+
+	SELECT last_name,salary FROM employees
+	WHERE salary=(
+	SELECT min(salary) FROM employees
+	);
+
+#二、查询平均工资最低的部门信息
+
+	SELECT department_id,avg(salary)
+	from employees
+	GROUP BY department_id
+	ORDER BY avg(salary) asc
+	LIMIT 1;
+
+	SELECT *,avg(salary) 部门平均工资  FROM employees
+	GROUP BY department_id
+	HAVING avg(salary)=(
+		SELECT avg(salary)
+	from employees
+	GROUP BY department_id
+	ORDER BY avg(salary) asc
+	LIMIT 1
+	)
+
+#三、查询平均工资最低的部门信息和该部门的平均工资
+    SELECT *
+	FROM departments d
+	join
+	(
+	SELECT department_id,avg(salary)
+	from employees
+	GROUP BY department_id
+	ORDER BY avg(salary) asc
+	LIMIT 1
+	) a  on d.department_id=a.department_id
+
+
+
+#四、查询平均工资最高的job信息
+
+	SELECT job_id
+	FROM employees
+    GROUP BY job_id
+	ORDER BY avg(salary)
+	desc LIMIT 1
+
+	SELECT j.*
+	FROM employees e join jobs j
+    on e.job_id=j.job_id
+	WHERE j.job_id=(
+	SELECT job_id
+	FROM employees
+    GROUP BY job_id
+	ORDER BY avg(salary)
+	desc LIMIT 1
+	)
+
+#五、查询平均工资高于公司平均工资的部门有哪些
+
+    SELECT avg(salary) FROM employees
+
+	SELECT department_id,avg(salary) FROM employees
+	GROUP BY department_id
+	HAVING avg(salary) >(
+	 SELECT avg(salary)
+	 FROM employees
+	)
+
+#六、查询出公司所有manage的详细信息
+
+	SELECT manager_id FROM employees
+
+	SELECT * FROM employees
+	WHERE employee_id in (
+	  SELECT manager_id
+	  FROM employees
+	 )
+
+#七、各个部门中 最高工资中最低的那个部门的 最低工资是多少
+
+  SELECT  department_id FROM employees
+	GROUP BY department_id
+	ORDER BY max(salary)
+	LIMIT 1
+
+	SELECT last_name,min(salary) FROM employees
+	WHERE department_id=(
+	 SELECT  department_id FROM employees
+	 GROUP BY department_id
+	 ORDER BY max(salary)
+	 LIMIT 1
+    )
+
+#八、查询平均工资最高的部门的 manager的详细信息：
+
+	 SELECT department_id FROM employees
+	 GROUP BY department_id
+	 ORDER BY avg(salary) desc
+	 LIMIT 1
+
+	 SELECT last_name,department_id,email,salary
+	 FROM employees
+	 WHERE  employee_id in (
+	  SELECT manager_id
+	  FROM employees
+	 )
+    and department_id=(
+	 	 SELECT department_id FROM employees
+	 GROUP BY department_id
+	 ORDER BY avg(salary) desc
+	 LIMIT 1
+	 )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
