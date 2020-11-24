@@ -727,7 +727,29 @@ CREATE TABLE book(
   WHERE 0;
 
 
+-------------------------------------------------------------------------------------------
+#UNSIGNED 设置为无符号
+ DROP TABLE if EXISTS int_tbl;
+ CREATE TABLE int_tbl(
+   id int UNSIGNED
+ );
+ ALTER TABLE int_tbl MODIFY COLUMN id int UNSIGNED;
+ INSERT into int_tbl VALUES(-125);
+ desc int_tbl;
 
+#当值超出范围后包异常，存入临界值；
+
+#ZEROFILL 零填充
+
+ DROP TABLE if EXISTS int_tbl1;
+ CREATE TABLE int_tbl1(
+   id int UNSIGNED,
+   'name' int(7) ZEROFILL
+  );
+
+ INSERT into int_tbl1 VALUES(1,123);
+
+ SELECT * FROM int_tbl1;
 
 
 
