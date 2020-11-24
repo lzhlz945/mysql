@@ -665,7 +665,18 @@ FROM departments
 	 LIMIT 1
 	 )
 
+------------------------------------------------------------------------------------------------
 
+对库的操作语句
+
+#库的创建
+ CREATE DATABASE if NOT EXISTS books;
+
+#修改库的字符集
+ ALTER DATABASE books CHARACTER set 'utf-8';
+
+#删除库
+ DROP DATABASE if EXISTS books;
 
 
 
