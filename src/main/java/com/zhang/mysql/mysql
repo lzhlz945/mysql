@@ -801,7 +801,7 @@ CREATE TABLE enum_str(
 		majorId int REFERENCES major(id)
 	);
 	SHOW index FROM stuInfo;
-	
+
 	desc stuInfo;
 	CREATE TABLE major(
 	   id int PRIMARY KEY,
@@ -809,6 +809,28 @@ CREATE TABLE enum_str(
 
 	)
 
+------------------------------------------------------------------------------------
+
+#表级约束
+ CREATE TABLE stuinfo1(
+  id INT,
+  stuName VARCHAR(20),
+  gender char(1) ,
+  setId int UNIQUE,
+  majorId int ,
+
+  CONSTRAINT pk PRIMARY KEY(id),
+  CONSTRAINT uq UNIQUE(stuName),
+  CONSTRAINT ck CHECK (gender in('男','女')),
+  CONSTRAINT fk FOREIGN KEY(majorId) REFERENCES major1(id)
+	);
+
+CREATE TABLE major1(
+	   id int,
+	   majorName VARCHAR(20),
+	   CONSTRAINT pk PRIMARY KEY(id)
+
+	);
 
 
 
