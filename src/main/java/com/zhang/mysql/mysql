@@ -791,7 +791,23 @@ CREATE TABLE enum_str(
 		表级约束
 	);
 
+-----------------------------------------------------------------------------------
+#列级约束：
+	CREATE TABLE stuInfo(
+	  id INT PRIMARY KEY,
+		stuName VARCHAR(20) NOT NULL,
+		gender char(1) CHECK (gender in('男''女')),
+		setId int UNIQUE,
+		majorId int REFERENCES major(id)
+	);
+	SHOW index FROM stuInfo;
+	
+	desc stuInfo;
+	CREATE TABLE major(
+	   id int PRIMARY KEY,
+	   majorName VARCHAR(20)
 
+	)
 
 
 
