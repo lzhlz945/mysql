@@ -752,6 +752,20 @@ CREATE TABLE book(
  SELECT * FROM int_tbl1;
 
 
+--------------------------------------------------------------------------------
+VARCHAR() 0-65535 不定长
+较长文本
+text blob(较大的二进制)
+CREATE TABLE enum_str(
+   s1 enum ('a','b','c')
+)
+
+ INSERT into enum_str VALUES('a');
+ INSERT into enum_str VALUES('b');
+ INSERT into enum_str VALUES('c');
+ INSERT into enum_str VALUES('d');
+ INSERT into enum_str VALUES('c');
+
 
 
 
