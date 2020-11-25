@@ -766,7 +766,30 @@ CREATE TABLE enum_str(
  INSERT into enum_str VALUES('d');
  INSERT into enum_str VALUES('c');
 
+--------------------------------------------------------------------------------
 
+#六大约束
+ NOT NULL 非空;
+ DEFAULT 保证该字段有默认值
+ PRIMARY KEY 保证字段的
+ UNIQUE 唯一 可以为空
+ check 检查约束 mysql不支持
+ FOREIGN KEY 外键约束
+
+ 约束分类
+  列级约束
+	表级约束
+
+	列级约束：除了外键没效果都支持
+	表级约束：除了非空、默认其他都支持
+
+	CREATE TABLE 表名(
+	  字段一 类型 约束，
+	  字段二 类型 约束，
+	  字段三 类型 约束，
+
+		表级约束
+	);
 
 
 
