@@ -832,6 +832,45 @@ CREATE TABLE major1(
 
 	);
 
+------------------------------------------------------------------------------------
+
+#自增长列
+ DROP TABLE if EXISTS tab_identity;
+ CREATE TABLE tab_identity(
+
+#设置主键自增
+
+ id int PRIMARY KEY auto_increment,
+ NAME VARCHAR(10)
+ )
+
+TRUNCATE TABLE tab_identity;
+
+ SELECT * FROM tab_identity
+ INSERT INTO tab_identity VALUES(1,"zs");
+ INSERT INTO tab_identity(`name`) VALUES("z2s");
+
+
+#手动设置步长
+ set auto_increment_increment=3;
+
+#设置起始值
+ INSERT INTO tab_identity(ID,`name`) VALUES(4,"z222s");
+
+#标识列的特点
+ 1、只能是一个key键
+ 2、只能有一个标识列
+ 3、标识列的类型 ：只能是数值型
+ 4、标识列可以设置步长 set auto_increment_increment;
+ 5、可以设置起始值
+
+#增加标识列
+ DESC tab_identity;
+ ALTER TABLE tab_identity MODIFY COLUMN id  int auto_increment;
+ set auto_increment_increment=3;
+
+#删除增加
+  ALTER TABLE tab_identity MODIFY COLUMN id int ;
 
 
 
