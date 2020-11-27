@@ -994,6 +994,20 @@ SELECT @@ GLOBAL| 【SESSION.系统变量名;
 方式一、set GLOBAL| 【SESSION】 系统变量名=‘值’
 方式二、set @@GLOBAL| 【SESSION】 系统变量名=‘值’
 
+--------------------------------------------------------------------
+#用户变量初始化
+ #1、set @用户变量名 = 值；
+ #2、set @用户变量名 := 值；
+ #3、SELECT @用户变量名 := 值；
+
+#用户变量赋值
+ SELECT 字段 into 变量名 FROM xx;
+ set @name ='kebo';
+ set @name=100;
+
+ set @number =0;
+ SELECT count(*)  into @number from employees;
+ SELECT @number;
 
 
 
