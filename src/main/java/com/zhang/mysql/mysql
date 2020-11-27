@@ -937,7 +937,22 @@ DROP VIEW 视图1,视图2.....；
 desc em_dep_loc;
 
 
+-------------------------------------------------------------------------
+#TRUNCATE和DELETE在事务中的区别
+ SELECT * FROM save_point;
+ desc major1;
 
+
+ #DELETE
+ set autocommit=0;
+ DELETE FROM save_point WHERE id=3;
+ DELETE FROM save_point WHERE id=2;
+ ROLLBACK;
+
+ #TRUNCATE
+ set autocommit=0;
+ TRUNCATE TABLE save_point;
+ ROLLBACK;
 
 
 
