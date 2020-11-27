@@ -872,8 +872,38 @@ TRUNCATE TABLE tab_identity;
 #删除增加
   ALTER TABLE tab_identity MODIFY COLUMN id int ;
 
+----------------------------------------------------------------------------
+
+#事务步骤
+1、开启事务
+   set autoCOMMIT=0;
+2、编写sql语句
+3、结束事务
+   commit      rollback(回滚事务)
+4、设置保存点
+   SAVEPOINT
+#SAVEPOINT使用
+   CREATE TABLE save_point(
+   id int PRIMARY KEY auto_increment,
+	 aName VARCHAR(20)
+)
+  INSERT into save_point VALUES(1,'zs');
+  INSERT into save_point(aName) VALUES('lisw');
+  INSERT into save_point(aName) VALUES('lisw1');
+  set autocommit=0;
+  DELETE FROM save_point WHERE id=1;
+  SAVEPOINT a;
+  DELETE FROM save_point WHERE id =2;
+  ROLLBACK to a;
+  COMMIT;
+  SELECT * from save_point;
 
 
+#查看隔离级别语句
+ SELECT @@tx_isolation
+
+#设置隔离级别
+ set SESSION TRANSACTION ISOLATION LEVEL read "隔离级别名称"
 
 
 
