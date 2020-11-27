@@ -954,6 +954,30 @@ desc em_dep_loc;
  TRUNCATE TABLE save_point;
  ROLLBACK;
 
+-------------------------------------------------------
+  完整的表创建格式：
+
+DROP TABLE stuinfo1;
+		CREATE TABLE stuinfo1(
+	  id INT,
+		stuName VARCHAR(20),
+		gender char(1) ,
+		setId int UNIQUE,
+		majorId int ,
+
+CONSTRAINT pk PRIMARY KEY(id),
+CONSTRAINT uq UNIQUE(stuName),
+CONSTRAINT ck CHECK (gender in('男','女')),
+CONSTRAINT fk FOREIGN KEY(majorId) REFERENCES major1(id)
+	)ENGINE=INNODB DEFAULT CHARSET=utf8;
+
+		SHOW index FROM stuinfo1;
+CREATE TABLE major1(
+	   id int,
+		 majorName VARCHAR(20),
+		 CONSTRAINT pk PRIMARY KEY(id)
+
+	);
 
 
 
