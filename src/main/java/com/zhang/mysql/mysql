@@ -1102,7 +1102,17 @@ END;
 
 call major11(4,'zs');
 
+----------------------------------------------------------------------------------
 
+CREATE PROCEDURE major12(in id int,in majorNmae VARCHAR(20))
+BEGIN
+   DECLARE result1 int  DEFAULT 0;
+
+    SELECT count(*) into result1
+		FROM major1
+		WHERE major1.id=id and major1.majorName=majorName;
+		SELECT if(result1>0,'登陆成功','登录失败');
+END;
 
 
 
