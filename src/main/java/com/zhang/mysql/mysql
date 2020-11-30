@@ -1210,7 +1210,16 @@ end;
 SELECT fun2('Kochhar');
 SELECT @sal;
 
+--------------------------------------------------------------------------------
+#带多个参数
+CREATE FUNCTION fun3(num1 FLOAT,num2 FLOAT) RETURNS FLOAT
+BEGIN
+    DECLARE sum FLOAT DEFAULT 0;
+		set sum=num1+num2;
+		return sum;
+END;
 
+SELECT fun3(1.2,1.3);
 
 
 
