@@ -91,7 +91,7 @@ mysql:
  ①round() 四舍五入 类似加绝对值
  round(-1.5) -2
  round(-1.5251,2)  -1.53 可以对小数进行四舍五入
-
+floor(rand()*26+1) 1 -- 26
 ②ceil() 向上取整
  SELECT ceil(-1.9) -1 SELECT ceil(1.1) 2
 
