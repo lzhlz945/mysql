@@ -1069,6 +1069,20 @@ END;
 -- 调用，输出查询结果
 call demo1();
 
+------------------------------------------------------------------------
+#设置字符集
+set NAMES utf8;
+
+
+CREATE PROCEDURE myAnddepar(in id int)
+BEGIN
+   SELECT e.last_name,d.department_id
+	 from departments d JOIN employees e
+	 on d.department_id = e.department_id
+	 WHERE d.department_id=id;
+ end;
+
+call myAnddepar(10);
 
 
 
