@@ -1137,7 +1137,23 @@ SELECT @lastName,@firstName;
 
 返回值相当于把值给常量，因为没有返回值在call中接受的值存入了常量中
 
+----------------------------------------------------------------------------
+#INOUT
+delimiter $
+CREATE PROCEDURE test02(INOUT a int,INOUT b int)
+BEGIN
+    set a=a*2;
+		set b=b*2;
 
+end$
+
+set @m=10;
+set @n=20;
+
+call test02(@m,@n);
+SELECT @m,@n;
+
+inout 需要在调用call时定义需要返回的用户变量；作为输入和返回值；
 
 
 
