@@ -1115,7 +1115,27 @@ BEGIN
 END;
 
 
+----------------------------------------------------------------------------------
 
+#out
+
+delimiter $
+CREATE PROCEDURE test01(IN id int,out lastName VARCHAR(22),out firstName VARCHAR(50))
+
+BEGIN
+   SELECT last_name,first_name into
+	 lastName,firstName
+	 FROM employees
+	 WHERE employee_id=id;
+end$
+
+set @lastName='';
+set @firstName='';
+ CALL test01(101,@lastName,@firstName);
+SELECT @lastName,@firstName;
+
+
+返回值相当于把值给常量，因为没有返回值在call中接受的值存入了常量中
 
 
 
