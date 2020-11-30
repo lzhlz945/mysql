@@ -1044,9 +1044,30 @@ END;
 			 存储过程结尾可以使用 delimiter 重新设置
 			 语法：
 			 delimiter 结束标记
+--------------------------------------------------------------------
+#调用语法
+CALL 存储过程名(实参列表);
+
+#1、空参列表
+
+SELECT * FROM major1;
+#无参数存储过程
+
+DELIMITER $
+CREATE PROCEDURE tests()
+BEGIN
+INSERT into major1(id,majorName) VALUES(7,'zs'),(8,'ls'),(9,'ww');
+END $
+call tests;
 
 
 
+CREATE PROCEDURE demo1()
+BEGIN
+    SELECT * from major1 LIMIT 1;
+END;
+-- 调用，输出查询结果
+call demo1();
 
 
 
