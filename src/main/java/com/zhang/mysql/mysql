@@ -1307,6 +1307,53 @@ REPEAT
 	statement_list
 UNTIL search_condition
 END REPEAT;
+-------------------------------------------------------------------------
+#向major1中插入100条记录，没有返回值用procedure
+
+CREATE PROCEDURE pro_while(in count int)
+BEGIN
+   DECLARE i int DEFAULT 1;
+	 a:WHILE i<count DO
+	 INSERT INTO major1(id,majorName) VALUES(i,'666');
+	        set i=i+1;
+END WHILE a;
+END;
+
+call pro_while(100);
+
+#带leave
+TRUNCATE TABLE major1;
+CREATE PROCEDURE pro_while01(in count int)
+BEGIN
+   DECLARE i int DEFAULT 1;
+	 a:WHILE i<count DO
+	 INSERT INTO major1(id,majorName) VALUES(i,'666');
+	        set i=i+1;
+	 IF i>=20 THEN
+	  leave a;
+   END IF;
+
+END WHILE a;
+END;
+
+call pro_while01(100);
+
+#添加iterate
+
+CREATE PROCEDURE pro_while02(in count int)
+BEGIN
+   DECLARE i int DEFAULT 0;
+	 a:WHILE i<count DO
+
+	        set i=i+1;
+	 IF mod(i,2)!=0 THEN
+	  ITERATE a;
+   END IF;
+		INSERT INTO major1(id,majorName) VALUES(i,'666');
+END WHILE a;
+END;
+
+call pro_while02(100);
 
 
 
