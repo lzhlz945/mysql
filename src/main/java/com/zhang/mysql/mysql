@@ -1155,8 +1155,20 @@ SELECT @m,@n;
 
 inout 需要在调用call时定义需要返回的用户变量；作为输入和返回值；
 
+--------------------------------------------------------------------
+#删除存储过程
+DROP PROCEDURE xx;
+#查看存储过程
+SHOW CREATE PROCEDURE test01;
 
+CREATE PROCEDURE test04(in date datetime,out str VARCHAR(50))
+BEGIN
+         SELECT DATE_FORMAT(date,'%y年%m月%d天') into str ;
+end;
 
+call test04(now(),@str);
+
+SELECT @str;
 
 
 
