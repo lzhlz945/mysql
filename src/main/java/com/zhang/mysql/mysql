@@ -1243,7 +1243,20 @@ else 返回的语句n或值n;
 END case;
 
 
+#举列1
+CREATE PROCEDURE fun_case(in score int)
+BEGIN
+   CASE
+	WHEN score>=90 and score<=100 THEN select 'A';
+	WHEN score>=80 and score<90 THEN select 'B';
+	WHEN score>=60 THEN select 'C';
 
+	ELSE SELECT 'D';
+  END CASE;
+
+END;
+
+CALL fun_case(0);
 
 
 
