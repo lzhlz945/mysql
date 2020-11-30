@@ -1278,6 +1278,35 @@ end;
 
 SELECT if_test(1000);
 
+------------------------------------------------------------------
+#循环结构
+分类
+#while 、loop、repeat;
+循环控制
+ITERATE 相当于continue 结束本次循环，执行下次循环
+LEAVE 相当于break 跳出循环
+
+语法：
+#while
+#【标签：】 WHILE search_condition DO
+	statement_list
+END WHILE;
+
+#loop
+label: LOOP
+	statement_list
+
+	IF exit_condition THEN
+		LEAVE label;
+	END IF;
+END LOOP label;
+
+#repeat
+
+REPEAT
+	statement_list
+UNTIL search_condition
+END REPEAT;
 
 
 
