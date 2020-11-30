@@ -1196,6 +1196,78 @@ END;
 
 SELECT fun01();
 
+-----------------------------------------------------------------------------
+#带参数
+
+CREATE FUNCTION fun2(a VARCHAR(30)) RETURNS DOUBLE
+BEGIN
+    set @sal=0;
+		SELECT salary INTO @sal FROM employees
+		WHERE last_name=a;
+		return @sal;
+end;
+
+SELECT fun2('Kochhar');
+SELECT @sal;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
