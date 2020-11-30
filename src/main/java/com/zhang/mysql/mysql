@@ -1084,7 +1084,23 @@ BEGIN
 
 call myAnddepar(10);
 
+------------------------------------------------------------------------------
 
+#多个参数
+
+
+CREATE PROCEDURE major11(in id int,in majorNmae VARCHAR(20))
+BEGIN
+   DECLARE result VARCHAR(20) DEFAULT '';
+
+    SELECT count(*) into result
+		FROM major1
+		WHERE major1.id=id and major1.majorName=majorName;
+		SELECT result;
+END;
+
+
+call major11(4,'zs');
 
 
 
