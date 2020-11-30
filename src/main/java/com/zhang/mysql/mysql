@@ -1258,6 +1258,25 @@ END;
 
 CALL fun_case(0);
 
+--------------------------------------------------------------
+#if
+if 条件1 then 语句1；
+ELSEIF 条件2 THEN 语句2；
+....
+【else 语句n】
+end if;
+
+CREATE FUNCTION if_test(score int) RETURNS char
+BEGIN
+     if score>=90 and score <=100 THEN return 'A';
+		 ELSEIF score>=80 and score <90 THEN RETURN 'B';
+		 ELSEIF score>=60 and score <800 then return 'C';
+		 else  return 'D';
+		 end if;
+
+end;
+
+SELECT if_test(1000);
 
 
 
